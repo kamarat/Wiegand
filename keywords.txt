@@ -1,0 +1,34 @@
+#########################################################
+# Syntax Coloring Map
+#
+# KEYWORD1 is generally used for the classes that you
+#          define in your library.
+# KEYWORD2 is used for the public member functions of the
+#          class. Basically these are the class' methods.
+# LITERAL1 is used for any #defines that are relevant
+#          for the user of the library.
+#########################################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+WIEGAND KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin KEYWORD2
+end KEYWORD2
+available KEYWORD2
+getParityMSB KEYWORD2
+getParityLSB KEYWORD2
+getCodeHex KEYWORD2
+getCodeDec KEYWORD2
+getCode KEYWORD2
+getWiegandType KEYWORD2
+readBit KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+(KEY_NONE	LITERAL1)
