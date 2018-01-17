@@ -159,10 +159,10 @@ uint8_t WIEGAND::check( void )
     case WIEGAND26:
     case WIEGAND34: {
       // Check odd parity for the lower half of bits
-      if ( packet_.parityLSB == 0x01 & countParity( (uint32_t)packet_.data & MASK_HALF_CODE( packet_.wiegandType )))
+      if (( packet_.parityLSB == 0x01 ) & countParity( (uint32_t)packet_.data & MASK_HALF_CODE( packet_.wiegandType )))
         return 1; // bad parity
       // Check even parity for the higher half of bits
-      if ( packet_.parityMSB != 0x01 & countParity ( packet_.data >> ( packet_.wiegandType >> 1 )))
+      if (( packet_.parityMSB != 0x01 ) & countParity( packet_.data >> ( packet_.wiegandType >> 1 )))
         return 1; // bad parity
 
       return 0;
@@ -173,7 +173,7 @@ uint8_t WIEGAND::check( void )
       if ( packet_.parityMSB != 0 )
         return 1; // bad parity
       // Check even parity for the all bits
-      if ( packet_.parityLSB != 0x01 & ( countParity( packet_.data & 0xFFFFFFFF ) + countParity( packet_.data >> 32 ) ))
+      if (( packet_.parityLSB != 0x01 ) & ( countParity( packet_.data & 0xFFFFFFFF ) + countParity( packet_.data >> 32 )))
         return 1; // bad parity
 
       return 0;
@@ -244,7 +244,8 @@ void WIEGAND::getCodeHex( char * code, uint8_t size )
     char * ptr = code;
 
     for ( int8_t i = ( packet_.wiegandType >> 3 ) - 1; i >= 0; i-- )
-      ptr += sprintf( ptr, "%02X", ( packet_.data >> ( i << 3 )) & 0xFF );
+      //ptr += sprintf( ptr, "%02X", ( packet_.data >> ( i << 3 )) & 0xFF );
+      ptr += sprintf( ptr, "%02X", (uint8_t)( packet_.data >> ( i << 3 )));
     *ptr = '\0';
   }
 }
@@ -329,7 +330,9 @@ void WIEGAND::writeBit0( void )
   buffer_ <<=1;
   ++bitsCounter_;
   lastBitTime_ = millis();  // keep track of last wiegand bit received
-  Serial.print( "0" );
+  #if DEBUG >= 2
+    Serial.print( "0" );
+  #endif
 }
 
 /*******************************************************************************
@@ -343,7 +346,9 @@ void WIEGAND::writeBit1( void )
   buffer_ = ( buffer_ << 1 ) | 0x01;
   ++bitsCounter_;
   lastBitTime_ = millis();  // keep track of last wiegand bit received
-  Serial.print( "1" );
+  #if DEBUG >= 2
+    Serial.print( "1" );
+  #endif
 }
 
 /*******************************************************************************
